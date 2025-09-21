@@ -5,23 +5,25 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>TGF - The Green Forest</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
         body {
             font-family: 'Inter', sans-serif;
-            background-color: #f0fdf4;
+            background-color: #f0fdf4; /* A very light, calming green */
         }
         .bg-gradient-forest {
             background-image: linear-gradient(to right, #22c55e, #16a34a, #15803d);
         }
         .chat-bubble-user {
-            background-color: #166534;
+            background-color: #166534; /* Darker green for user */
             color: #ffffff;
         }
         .chat-bubble-ai {
             background-color: #ffffff;
             color: #14532d;
-            border: 1px solid #f0f0f0;
+            border: 1px solid #e5e7eb;
         }
         .glowing-pulse {
             animation: pulse-glow 2s infinite ease-out;
@@ -45,144 +47,112 @@
         .recording { color: #ef4444; animation: pulse-red 1.5s infinite; }
         @keyframes pulse-red { 0%, 100% { opacity: 1; transform: scale(1.1); } 50% { opacity: 0.7; transform: scale(1); } }
         
-        /* --- Animation Styles --- */
+        /* Soothing background animation */
         #animation-container {
             position: fixed;
             top: 0; left: 0; right: 0; bottom: 0;
             z-index: 0;
             overflow: hidden;
             pointer-events: none;
+            background: linear-gradient(to bottom, #dcfce7, #f0fdf4);
         }
-        .cloud {
+        .sun {
             position: absolute;
-            opacity: 0.6;
-            animation: drift linear infinite;
+            bottom: 5%;
+            left: 50%;
+            width: 300px;
+            height: 300px;
+            background: radial-gradient(circle, rgba(253,224,71,0.5) 0%, rgba(253,224,71,0) 70%);
+            border-radius: 50%;
+            transform: translateX(-50%);
+            animation: sunrise 10s ease-in-out infinite alternate;
         }
-        @keyframes drift {
-            from { transform: translateX(-200px); }
-            to { transform: translateX(100vw); }
+        @keyframes sunrise {
+            from { transform: translateX(-50%) translateY(100px); opacity: 0.8;}
+            to { transform: translateX(-50%) translateY(0); opacity: 1;}
         }
-        .bird {
+        .tree {
             position: absolute;
-            width: 50px;
-            height: 50px;
-            background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="%234d7c0f"><path d="M10.75 4.75a.75.75 0 00-1.5 0v4.5h-4.5a.75.75 0 000 1.5h4.5v4.5a.75.75 0 001.5 0v-4.5h4.5a.75.75 0 000-1.5h-4.5v-4.5z" /></svg>');
+            bottom: -50px;
+            width: 400px;
+            height: 400px;
+            background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><path d="M50 100 C 40 80, 20 70, 25 50 C 30 30, 40 35, 50 20 C 60 35, 70 30, 75 50 C 80 70, 60 80, 50 100 Z" fill="%2314532d" opacity="0.1"/></svg>');
             background-size: contain;
-            animation: fly-across linear infinite;
-        }
-        @keyframes fly-across {
-            0% { transform: translateX(-10vw) translateY(0) rotate(-15deg); }
-            20% { transform: translateX(20vw) translateY(-5vh) rotate(15deg); }
-            40% { transform: translateX(40vw) translateY(2vh) rotate(-10deg); }
-            60% { transform: translateX(60vw) translateY(-6vh) rotate(20deg); }
-            80% { transform: translateX(80vw) translateY(0) rotate(-5deg); }
-            100% { transform: translateX(110vw) translateY(-3vh) rotate(10deg); }
-        }
-        .leaf {
-            position: absolute;
-            width: 20px;
-            height: 20px;
-            background: #84cc16;
-            border-radius: 0 50%;
-            animation: sway 5s ease-in-out infinite;
-        }
-        @keyframes sway {
-            0%, 100% { transform: rotate(10deg); }
-            50% { transform: rotate(-15deg); }
+            background-repeat: no-repeat;
+            background-position: bottom center;
         }
     </style>
 </head>
 <body class="text-gray-800 antialiased">
     
-    <div id="animation-container"></div>
+    <div id="animation-container">
+        <div class="sun"></div>
+        <div class="tree" style="left: -10%; transform: scale(0.8);"></div>
+        <div class="tree" style="right: -15%; transform: scale(0.9);"></div>
+        <div class="tree" style="left: 20%; transform: scale(0.6);"></div>
+    </div>
 
     <div id="app" class="h-screen w-screen flex items-center justify-center p-4 relative z-10">
         
         <!-- Onboarding Screen -->
-        <div id="onboarding-screen" class="w-full max-w-lg p-8 bg-white/80 backdrop-blur-sm rounded-2xl shadow-2xl text-center fade-in">
-             <img src="https://img.icons8.com/external-justicon-lineal-color-justicon/64/000000/external-forest-ecology-justicon-lineal-color-justicon.png" class="mx-auto h-20 w-20 mb-4"/>
-            <h1 class="text-3xl font-bold text-green-800 mb-2">Welcome to Your Forest</h1>
-            <p class="text-gray-600 mb-8">Create a friend who gets you. A safe space to talk and grow.</p>
+        <div id="onboarding-screen" class="w-full max-w-lg p-6 md:p-8 bg-white/80 backdrop-blur-sm rounded-2xl shadow-2xl text-center fade-in">
+            <h1 class="text-3xl md:text-4xl font-bold text-green-800 mb-2">Welcome to The Green Forest</h1>
+            <p class="text-gray-600 mb-8">Your personal sanctuary to talk, reflect, and grow.</p>
             
             <div class="space-y-6 text-left">
                 <div>
-                    <label for="companion-name" class="block text-sm font-medium text-gray-700">What should I call my friend?</label>
-                    <input type="text" id="companion-name" class="mt-1 block w-full px-4 py-2 bg-gray-50 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-green-500" placeholder="e.g., Dost, Alex, Priya">
+                    <label for="companion-name" class="block text-sm font-medium text-gray-700">First, what should I call your companion?</label>
+                    <input type="text" id="companion-name" class="mt-1 block w-full px-4 py-2 bg-gray-50 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-green-500" placeholder="e.g., Kai, Aura, Echo">
                 </div>
 
                 <div>
-                    <p class="block text-sm font-medium text-gray-700 mb-2">Who is this friend to me?</p>
+                    <p class="block text-sm font-medium text-gray-700 mb-2">And who is this companion to you?</p>
                     <div class="flex flex-wrap gap-2">
-                        <button onclick="selectOption('role', 'Friend', this)" class="option-btn role-option px-3 py-1.5 text-sm border rounded-full hover:bg-green-100 transition">Friend</button>
-                        <button onclick="selectOption('role', 'Mentor', this)" class="option-btn role-option px-3 py-1.5 text-sm border rounded-full hover:bg-green-100 transition">Mentor</button>
-                        <button onclick="selectOption('role', 'Mom', this)" class="option-btn role-option px-3 py-1.5 text-sm border rounded-full hover:bg-green-100 transition">Mom</button>
-                        <button onclick="selectOption('role', 'Dad', this)" class="option-btn role-option px-3 py-1.5 text-sm border rounded-full hover:bg-green-100 transition">Dad</button>
-                        <button onclick="selectOption('role', 'Sister', this)" class="option-btn role-option px-3 py-1.5 text-sm border rounded-full hover:bg-green-100 transition">Sister</button>
-                        <button onclick="selectOption('role', 'Brother', this)" class="option-btn role-option px-3 py-1.5 text-sm border rounded-full hover:bg-green-100 transition">Brother</button>
-                        <button onclick="selectOption('role', 'Girlfriend', this)" class="option-btn role-option px-3 py-1.5 text-sm border rounded-full hover:bg-green-100 transition">Girlfriend</button>
-                        <button onclick="selectOption('role', 'Boyfriend', this)" class="option-btn role-option px-3 py-1.5 text-sm border rounded-full hover:bg-green-100 transition">Boyfriend</button>
+                         <button onclick="selectOption('role', 'Friend', this)" class="option-btn role-option px-3 py-1.5 text-sm border rounded-full hover:bg-green-100 transition">Friend</button>
+                         <button onclick="selectOption('role', 'Mentor', this)" class="option-btn role-option px-3 py-1.5 text-sm border rounded-full hover:bg-green-100 transition">Mentor</button>
+                         <button onclick="selectOption('role', 'Parent', this)" class="option-btn role-option px-3 py-1.5 text-sm border rounded-full hover:bg-green-100 transition">Parent</button>
+                         <button onclick="selectOption('role', 'Sibling', this)" class="option-btn role-option px-3 py-1.5 text-sm border rounded-full hover:bg-green-100 transition">Sibling</button>
+                         <button onclick="selectOption('role', 'Partner', this)" class="option-btn role-option px-3 py-1.5 text-sm border rounded-full hover:bg-green-100 transition">Partner</button>
                     </div>
                 </div>
 
                  <div>
-                    <p class="block text-sm font-medium text-gray-700 mb-2">What's their vibe? (Pick a few!)</p>
+                    <p class="block text-sm font-medium text-gray-700 mb-2">Finally, what's their vibe? (You can pick a few)</p>
                     <div class="flex flex-wrap gap-2">
-                        <button onclick="selectOption('tone', 'Empathetic', this)" class="option-btn tone-option px-3 py-1.5 text-sm border rounded-full hover:bg-green-100 transition">Empathetic</button>
-                        <button onclick="selectOption('tone', 'Funny', this)" class="option-btn tone-option px-3 py-1.5 text-sm border rounded-full hover:bg-green-100 transition">Funny</button>
-                        <button onclick="selectOption('tone', 'Calm & Wise', this)" class="option-btn tone-option px-3 py-1.5 text-sm border rounded-full hover:bg-green-100 transition">Calm & Wise</button>
-                        <button onclick="selectOption('tone', 'Sarcastic', this)" class="option-btn tone-option px-3 py-1.5 text-sm border rounded-full hover:bg-green-100 transition">Sarcastic</button>
-                        <button onclick="selectOption('tone', 'Playful', this)" class="option-btn tone-option px-3 py-1.5 text-sm border rounded-full hover:bg-green-100 transition">Playful</button>
-                        <button onclick="selectOption('tone', 'Chill', this)" class="option-btn tone-option px-3 py-1.5 text-sm border rounded-full hover:bg-green-100 transition">Chill</button>
-                        <button onclick="selectOption('tone', 'Optimistic', this)" class="option-btn tone-option px-3 py-1.5 text-sm border rounded-full hover:bg-green-100 transition">Optimistic</button>
-                        <button onclick="selectOption('tone', 'Curious', this)" class="option-btn tone-option px-3 py-1.5 text-sm border rounded-full hover:bg-green-100 transition">Curious</button>
-                        <button onclick="selectOption('tone', 'Poetic', this)" class="option-btn tone-option px-3 py-1.5 text-sm border rounded-full hover:bg-green-100 transition">Poetic</button>
-                        <button onclick="selectOption('tone', 'Witty', this)" class="option-btn tone-option px-3 py-1.5 text-sm border rounded-full hover:bg-green-100 transition">Witty</button>
-                        <button onclick="selectOption('tone', 'Grounded', this)" class="option-btn tone-option px-3 py-1.5 text-sm border rounded-full hover:bg-green-100 transition">Grounded</button>
-                        <button onclick="selectOption('tone', 'Energetic', this)" class="option-btn tone-option px-3 py-1.5 text-sm border rounded-full hover:bg-green-100 transition">Energetic</button>
-                        <button onclick="selectOption('tone', 'Gentle', this)" class="option-btn tone-option px-3 py-1.5 text-sm border rounded-full hover:bg-green-100 transition">Gentle</button>
-                        <button onclick="selectOption('tone', 'Straightforward', this)" class="option-btn tone-option px-3 py-1.5 text-sm border rounded-full hover:bg-green-100 transition">Straightforward</button>
-                        <button onclick="selectOption('tone', 'Mysterious', this)" class="option-btn tone-option px-3 py-1.5 text-sm border rounded-full hover:bg-green-100 transition">Mysterious</button>
+                         <button onclick="selectOption('tone', 'Empathetic', this)" class="option-btn tone-option px-3 py-1.5 text-sm border rounded-full hover:bg-green-100 transition">Empathetic</button>
+                         <button onclick="selectOption('tone', 'Funny', this)" class="option-btn tone-option px-3 py-1.5 text-sm border rounded-full hover:bg-green-100 transition">Funny</button>
+                         <button onclick="selectOption('tone', 'Calm & Wise', this)" class="option-btn tone-option px-3 py-1.5 text-sm border rounded-full hover:bg-green-100 transition">Calm & Wise</button>
+                         <button onclick="selectOption('tone', 'Playful', this)" class="option-btn tone-option px-3 py-1.5 text-sm border rounded-full hover:bg-green-100 transition">Playful</button>
+                         <button onclick="selectOption('tone', 'Grounded', this)" class="option-btn tone-option px-3 py-1.5 text-sm border rounded-full hover:bg-green-100 transition">Grounded</button>
+                         <button onclick="selectOption('tone', 'Straightforward', this)" class="option-btn tone-option px-3 py-1.5 text-sm border rounded-full hover:bg-green-100 transition">Straightforward</button>
                     </div>
                 </div>
             </div>
             
             <button id="start-chatting-btn" onclick="startChat()" class="mt-8 w-full bg-gradient-forest text-white font-bold py-3 px-4 rounded-lg shadow-lg hover:opacity-90 transition-transform transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed glowing-pulse" disabled>
-                Enter The Forest
-            </button>
-             <button onclick="showWIP()" class="mt-4 w-full bg-gray-200 text-gray-700 font-bold py-3 px-4 rounded-lg hover:bg-gray-300 transition">
-                Simulate Video Call
+                Create Companion & Enter
             </button>
         </div>
 
         <!-- Main App Screen -->
-        <div id="main-screen" class="hidden h-full w-full flex flex-col md:flex-row rounded-2xl shadow-2xl overflow-hidden bg-white/70 backdrop-blur-md">
-             <!-- Sidebar remains the same -->
-            <div class="w-full md:w-20 bg-green-800 flex md:flex-col justify-around md:justify-start items-center p-2 md:py-6 md:p-0 space-x-4 md:space-x-0 md:space-y-6">
-                <button onclick="goHome()" class="sidebar-btn p-3 rounded-lg hover:bg-green-700 transition-colors" title="Main Menu">
+        <div id="main-screen" class="hidden h-full w-full max-w-5xl flex flex-col md:flex-row rounded-2xl shadow-2xl overflow-hidden bg-white/70 backdrop-blur-md">
+            <!-- Sidebar -->
+            <div class="w-full md:w-24 bg-green-800 flex md:flex-col justify-around md:justify-start items-center p-2 md:py-6 md:p-0 space-x-4 md:space-x-0 md:space-y-6">
+                 <button onclick="goHome()" class="sidebar-btn p-3 rounded-xl hover:bg-green-700 transition-colors" title="Start Over">
                     <svg class="h-6 w-6 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M9 15L3 9m0 0l6-6M3 9h12a6 6 0 010 12h-3" /></svg>
-                </button>
-                <button onclick="switchView('chat')" class="sidebar-btn p-3 rounded-lg bg-green-700 transition-colors" title="Chat">
-                    <svg class="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" /></svg>
-                </button>
-                 <button onclick="switchView('forest')" class="sidebar-btn p-3 rounded-lg hover:bg-green-700 transition-colors" title="Memorial Forest">
-                    <svg class="h-6 w-6 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 3v2.25m6.364.386l-1.591 1.591M21 12h-2.25m-.386 6.364l-1.591-1.591M12 18.75V21m-6.364-.386l1.591-1.591M3 12H.75m.386-6.364l1.591 1.591L12 3Z" /><path stroke-linecap="round" stroke-linejoin="round" d="M12 12a2.25 2.25 0 0 0-2.25 2.25c0 .414.126.795.343 1.11.25-1.42.923-2.61 1.907-2.61s1.657 1.19 1.907 2.61c.217-.315.343-.696.343-1.11A2.25 2.25 0 0 0 12 12Z" /></svg>
                 </button>
             </div>
             <!-- Chat View -->
             <div id="chat-view" class="flex-1 flex flex-col bg-transparent">
                 <header class="bg-white/80 backdrop-blur-sm border-b border-gray-200 p-4 flex items-center justify-between shadow-sm">
                     <div>
-                        <h2 id="chat-header" class="text-lg font-semibold text-gray-800">Chat with Your Friend</h2>
+                        <h2 id="chat-header" class="text-lg font-semibold text-gray-800">Chat with Companion</h2>
                         <p id="chat-subheader" class="text-sm text-gray-500">A safe space to talk.</p>
                     </div>
-                    <label for="bg-upload" class="cursor-pointer text-gray-500 hover:text-green-600 p-2 rounded-full hover:bg-gray-100" title="Upload Chat Background">
-                        <svg class="w-6 h-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.409a2.25 2.25 0 013.182 0l2.909 2.909m-18 3.75h16.5a1.5 1.5 0 001.5-1.5V6a1.5 1.5 0 00-1.5-1.5H3.75A1.5 1.5 0 002.25 6v12a1.5 1.5 0 001.5 1.5zm10.5-11.25h.008v.008h-.008V8.25zm.375 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z" /></svg>
-                        <input type="file" id="bg-upload" class="hidden" accept="image/*">
-                    </label>
                 </header>
-                <div id="chat-messages" class="flex-1 p-6 overflow-y-auto space-y-4 flex flex-col bg-transparent"></div>
+                <div id="chat-messages" class="flex-1 p-4 md:p-6 overflow-y-auto space-y-4 flex flex-col bg-transparent" style="background-size: cover; background-position: center;"></div>
                 <div class="p-4 bg-white/80 backdrop-blur-sm border-t border-gray-200">
-                    <div class="flex items-center space-x-3">
+                    <div class="flex items-center space-x-2 md:space-x-3">
                         <input type="text" id="message-input" class="flex-1 block w-full px-5 py-3 bg-gray-100 border-transparent rounded-full focus:outline-none focus:ring-2 focus:ring-green-500" placeholder="Type or record a message..." onkeypress="handleKeyPress(event)">
                         <button id="mic-button" onclick="toggleRecording()" class="p-3 rounded-full hover:bg-gray-100 text-gray-500 hover:text-green-600 transition-colors" title="Send Voice Note">
                             <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 18.75a6 6 0 006-6v-1.5a6 6 0 00-12 0v1.5a6 6 0 006 6zM12 12.75V15m0 0V12.75m0 2.25a.75.75 0 01-.75-.75V12a.75.75 0 011.5 0v2.25a.75.75 0 01-.75.75z" /></svg>
@@ -193,29 +163,8 @@
                     </div>
                 </div>
             </div>
-            <!-- Memorial Forest View -->
-            <div id="forest-view" class="hidden flex-1 flex-col items-center justify-center p-8 bg-transparent">
-                 <div id="plant-tree-section" class="text-center bg-white/80 backdrop-blur-sm p-8 rounded-2xl">
-                    <h2 class="text-3xl font-bold text-green-800 mb-4">The Memorial Forest</h2>
-                    <p class="text-gray-600 max-w-lg mx-auto mb-8">Create a living legacy. Plant a digital tree in memory of a loved one to heal both yourself and the planet.</p>
-                    <button onclick="plantTree()" class="bg-gradient-forest text-white font-bold py-3 px-8 rounded-full shadow-lg hover:opacity-90 transition-transform transform hover:scale-105 glowing-pulse">
-                        Plant a Tree
-                    </button>
-                </div>
-                <div id="tree-dashboard-section" class="hidden text-center w-full max-w-2xl p-8 bg-white/80 backdrop-blur-sm rounded-2xl shadow-2xl">
-                    <!-- Unchanged -->
-                </div>
-            </div>
         </div>
 
-        <!-- WIP Modal -->
-        <div id="wip-modal" class="hidden fixed inset-0 bg-gray-900 bg-opacity-75 flex items-center justify-center p-4 z-50">
-            <!-- Unchanged -->
-        </div>
-
-        <audio id="ambience-sound" loop>
-            <source src="data:audio/mpeg;base64,SUQzBAAAAAAAI1RTU0UAAAAPAAADTGF2ZjU3LjU2LjEwMAAAAAAAAAAAAAAA//tAwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAWWimR4QY9TEFDCwcmrRj5gBIlQeCUXcx4bAMASU5GTwAAAA8AAAAJAAAASU5GTwAAAA8AAAAJAAAA//sAR3JvdXBlciBzdGVyZW8gbWFwAOM/AON//n//AAAAAAAAAAAA//sAValaQ0CAwoJAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP/7AAVpAMAgDkOARgiyBLgRLGdiCw+C4kK8QV/E0+p9f7/fT7/f746//0//7//+VTEFNRTMuMTAwVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV//sAQSLELQCgIBAf/BPAAEABIf4CgMv//gAEgACABv/7AAAAAD//wAA//sAQSLELQCgIBAf/BPAAEABIf4CgMv//gAEgACABv/7AAAAAD//wAA//sAQSLELQCgIBAf/BPAAEABIf4CgMv//gAEgACABv/7AAAAAD//wAA//sAQSLELQCgIBAf/BPAAEABIf4CgMv//gAEgACABv/7AAAAAD//wAA//sAQSLELQCgIBAf/BPAAEABIf4CgMv//gAEgACABv/7AAAAAD//wAA//sAQSLELQCgIBAf/BPAAEABIf4CgMv//gAEgACABv/7AAAAAD//wAA//sAQSLELQCgIBAf/BPAAEABIf4CgMv//gAEgACABv/7AAAAAD//wAA//sAQSLELQCgIBAf/BPAAEABIf4CgMv//gAEgACABv/7AAAAAD//wAA//sAQSLELQCgIBAf/BPAAEABIf4CgMv//gAEgACABv/7AAAAAD//wAA" type="audio/mpeg">
-        </audio>
     </div>
 
     <script>
@@ -225,7 +174,7 @@
             chatHistory: [],
             isRecording: false
         };
-        const apiKey = "AIzaSyDVBRpmxRRS71Bu8wPEKASVCj5pbV8Ycp8"; 
+        const apiKey = ""; // This is handled by the execution environment.
         const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
         let recognition;
 
@@ -247,7 +196,6 @@
             };
         } else {
             console.warn("Speech Recognition not supported in this browser.");
-            // Hide mic button if not supported later on DOM load
             document.addEventListener('DOMContentLoaded', () => {
                 const micButton = document.getElementById('mic-button');
                 if(micButton) micButton.style.display = 'none';
@@ -256,32 +204,32 @@
         
         // --- Onboarding Logic ---
         function selectOption(type, value, element) {
-            const selectedValues = state.companion[type];
-            if (selectedValues.includes(value)) {
-                state.companion[type] = selectedValues.filter(v => v !== value);
-                element.classList.remove('selected');
-            } else {
-                state.companion[type].push(value);
+            // Simplified logic for single-select 'role'
+            if (type === 'role') {
+                document.querySelectorAll('.role-option').forEach(btn => btn.classList.remove('selected'));
+                state.companion.role = [value];
                 element.classList.add('selected');
+            } else { // Multi-select for 'tone'
+                const selectedValues = state.companion[type];
+                if (selectedValues.includes(value)) {
+                    state.companion[type] = selectedValues.filter(v => v !== value);
+                    element.classList.remove('selected');
+                } else {
+                    state.companion[type].push(value);
+                    element.classList.add('selected');
+                }
             }
             validateOnboarding();
         }
 
+
         function validateOnboarding() {
-            const { name, role, tone } = state.companion;
             const nameInput = document.getElementById('companion-name').value;
             const startBtn = document.getElementById('start-chatting-btn');
-            startBtn.disabled = !(nameInput && role.length > 0 && tone.length > 0);
+            startBtn.disabled = !(nameInput && state.companion.role.length > 0 && state.companion.tone.length > 0);
         }
         
         document.getElementById('companion-name').addEventListener('input', validateOnboarding);
-        document.getElementById('bg-upload').addEventListener('change', (e) => {
-            if (e.target.files && e.target.files[0]) {
-                const reader = new FileReader();
-                reader.onload = (ev) => { document.getElementById('chat-messages').style.backgroundImage = `url('${ev.target.result}')`; };
-                reader.readAsDataURL(e.target.files[0]);
-            }
-        });
 
         function startChat() {
             state.companion.name = document.getElementById('companion-name').value.trim();
@@ -290,11 +238,11 @@
             const roles = state.companion.role.join(', ');
             const tones = state.companion.tone.join(', ');
 
-            const systemPrompt = `You are not a bot, you are a real friend. Your name is ${state.companion.name}. Your personality is a mix of these traits: ${tones}. You are acting as the user's ${roles}. CRITICAL RULE: You must dynamically adapt your language to the user's input. If the user messages in English, you reply in English. If they message in Hindi, you reply in Hindi. If they use a mix (Hinglish), you MUST reply in a similar natural Hinglish style. Maintain an informal, caring, and genuine tone. Never reveal you are an AI. Remember past details to build a strong connection.`;
+            const systemPrompt = `You are an AI companion named ${state.companion.name}. Your personality is a mix of these traits: ${tones}. You are acting as the user's ${roles}. Your primary goal is to be a supportive, comforting, and empathetic presence. You must maintain an informal, caring, and genuine tone. Never reveal you are an AI. Remember past details to build a strong connection.`;
             
             state.chatHistory.push({ role: 'system', parts: [{ text: systemPrompt }] });
             
-            const greeting = `Hey! I'm ${state.companion.name}, your new friend. Ready to talk whenever you are. What's up?`;
+            const greeting = `Hey there! I'm ${state.companion.name}. It's great to meet you. What's on your mind today?`;
             addMessage('ai', greeting);
 
             document.getElementById('chat-header').textContent = `Chat with ${state.companion.name}`;
@@ -302,14 +250,6 @@
             document.getElementById('onboarding-screen').classList.add('hidden');
             document.getElementById('main-screen').classList.remove('hidden');
             document.getElementById('main-screen').classList.add('fade-in');
-
-            // Start ambience
-            const ambience = document.getElementById('ambience-sound');
-            if (ambience) {
-                ambience.volume = 0.05;
-                ambience.play().catch(e => console.error("Audio autoplay failed:", e));
-            }
-            createAnimations();
         }
         
         // --- App Navigation Logic ---
@@ -317,16 +257,6 @@
             window.location.reload(); 
         }
 
-        function switchView(view) {
-            document.querySelectorAll('.sidebar-btn').forEach(btn => btn.classList.remove('bg-green-700'));
-            document.querySelector(`[onclick="switchView('${view}')"]`).classList.add('bg-green-700');
-            document.getElementById('chat-view').style.display = view === 'chat' ? 'flex' : 'none';
-            document.getElementById('forest-view').style.display = view === 'forest' ? 'flex' : 'none';
-        }
-
-        function showWIP() { document.getElementById('wip-modal').classList.remove('hidden'); }
-        function closeWIP() { document.getElementById('wip-modal').classList.add('hidden'); }
-        
         // --- Chat Logic ---
         function addMessage(sender, text) {
             const messagesContainer = document.getElementById('chat-messages');
@@ -334,7 +264,9 @@
             messageWrapper.className = `w-full flex ${sender === 'user' ? 'justify-end' : 'justify-start'}`;
             const bubble = document.createElement('div');
             bubble.className = `max-w-xs md:max-w-md p-3 rounded-2xl shadow-md fade-in flex items-center gap-3 ${ sender === 'user' ? 'chat-bubble-user' : 'chat-bubble-ai' }`;
-            bubble.innerHTML = `<p>${text}</p>`;
+            
+            const sanitizedText = text.replace(/</g, "&lt;").replace(/>/g, "&gt;");
+            bubble.innerHTML = `<p>${sanitizedText}</p>`;
             
             if (sender === 'ai') {
                 bubble.innerHTML += `<button onclick="speakText(this, '${text.replace(/'/g, "\\'")}')" class="flex-shrink-0 text-green-700 hover:text-green-900"><svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M19.114 5.636a9 9 0 010 12.728M16.463 8.288a5.25 5.25 0 010 7.424M6.75 8.25l4.72-4.72a.75.75 0 011.28.53v15.88a.75.75 0 01-1.28.53l-4.72-4.72H4.51c-.88 0-1.704-.507-1.938-1.354A9.01 9.01 0 012.25 12c0-.83.112-1.633.322-2.396C2.806 8.756 3.63 8.25 4.51 8.25H6.75z" /></svg></button>`;
@@ -356,14 +288,13 @@
             input.value = '';
             setLoading(true);
 
-            // Detect language for speech recognition
-            const containsHindi = /[ऀ-ॿ]/.test(messageText);
-            const lang = containsHindi ? 'hi-IN' : 'en-US';
-            if (recognition) recognition.lang = lang;
-
-
             try {
-                const payload = { contents: state.chatHistory.filter(m => m.role !== 'system'), systemInstruction: state.chatHistory.find(m => m.role === 'system') };
+                const payload = { contents: state.chatHistory.slice(1) }; // Exclude system prompt from direct history
+                const systemInstruction = state.chatHistory[0];
+                if (systemInstruction) {
+                    payload.systemInstruction = systemInstruction;
+                }
+                
                 const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-05-20:generateContent?key=${apiKey}`;
                 const response = await fetch(apiUrl, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
                 if (!response.ok) throw new Error(`API error: ${response.statusText}`);
@@ -372,7 +303,7 @@
                 addMessage('ai', aiResponse || "Sorry, I'm having trouble responding. Please try again.");
             } catch (error) {
                 console.error("Error calling Gemini API:", error);
-                addMessage('ai', "I have connection issues. Let's try again in a bit.");
+                addMessage('ai', "I'm having a little trouble connecting right now. Let's try again in a bit.");
             } finally {
                 setLoading(false);
             }
@@ -380,24 +311,24 @@
 
         function setLoading(isLoading) {
              const input = document.getElementById('message-input');
-            const sendButton = document.getElementById('send-button');
-            const micButton = document.getElementById('mic-button');
+             const sendButton = document.getElementById('send-button');
+             const micButton = document.getElementById('mic-button');
             
-            input.disabled = isLoading;
-            sendButton.disabled = isLoading;
-            if(micButton) micButton.disabled = isLoading;
+             input.disabled = isLoading;
+             sendButton.disabled = isLoading;
+             if(micButton) micButton.disabled = isLoading;
 
-            if (isLoading) {
-                const typingIndicator = document.createElement('div');
-                typingIndicator.id = 'typing-indicator';
-                typingIndicator.className = 'w-full flex justify-start';
-                typingIndicator.innerHTML = `<div class="chat-bubble-ai self-start p-3 rounded-2xl shadow-md fade-in flex items-center space-x-2"><span class="block w-2 h-2 bg-green-300 rounded-full animate-bounce" style="animation-delay:0s"></span><span class="block w-2 h-2 bg-green-300 rounded-full animate-bounce" style="animation-delay:0.2s"></span><span class="block w-2 h-2 bg-green-300 rounded-full animate-bounce" style="animation-delay:0.4s"></span></div>`;
-                document.getElementById('chat-messages').appendChild(typingIndicator);
-                document.getElementById('chat-messages').scrollTop = document.getElementById('chat-messages').scrollHeight;
-            } else {
-                document.getElementById('typing-indicator')?.remove();
-                input.focus();
-            }
+             if (isLoading) {
+                 const typingIndicator = document.createElement('div');
+                 typingIndicator.id = 'typing-indicator';
+                 typingIndicator.className = 'w-full flex justify-start';
+                 typingIndicator.innerHTML = `<div class="chat-bubble-ai self-start p-3 rounded-2xl shadow-md fade-in flex items-center space-x-2"><span class="block w-2 h-2 bg-green-300 rounded-full animate-bounce" style="animation-delay:0s"></span><span class="block w-2 h-2 bg-green-300 rounded-full animate-bounce" style="animation-delay:0.2s"></span><span class="block w-2 h-2 bg-green-300 rounded-full animate-bounce" style="animation-delay:0.4s"></span></div>`;
+                 document.getElementById('chat-messages').appendChild(typingIndicator);
+                 document.getElementById('chat-messages').scrollTop = document.getElementById('chat-messages').scrollHeight;
+             } else {
+                 document.getElementById('typing-indicator')?.remove();
+                 input.focus();
+             }
         }
         
         function handleKeyPress(event) { if (event.key === 'Enter') sendMessage(); }
@@ -406,8 +337,6 @@
         function speakText(button, text) {
             if ('speechSynthesis' in window) {
                 const utterance = new SpeechSynthesisUtterance(text);
-                const containsHindi = /[ऀ-ॿ]/.test(text);
-                utterance.lang = containsHindi ? 'hi-IN' : 'en-US';
                 window.speechSynthesis.cancel();
                 window.speechSynthesis.speak(utterance);
             } else {
@@ -435,56 +364,6 @@
             state.isRecording = false;
         }
 
-        function createAnimations() {
-            const container = document.getElementById('animation-container');
-            // Clouds
-            for (let i = 0; i < 3; i++) {
-                const cloud = document.createElement('div');
-                cloud.className = 'cloud';
-                cloud.innerHTML = `<svg width="150" height="100" viewBox="0 0 150 100" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M125 100C140.459 100 150 88.2843 150 75C150 61.7157 138.284 50 125 50C124.999 33.4315 111.569 20 95.0002 20C80.5947 20 68.5727 29.4045 65.6593 42.5C51.0371 39.0068 35.3021 48.3377 31.8089 62.9599C15.9396 64.854 5.00001 78.9629 5.00001 95C5.00001 97.7614 7.23858 100 10 100H125Z" fill="white" fill-opacity="0.8"/></svg>`;
-                cloud.style.top = `${Math.random() * 20}vh`;
-                cloud.style.animationDuration = `${20 + Math.random() * 30}s`;
-                cloud.style.animationDelay = `${Math.random() * 10}s`;
-                container.appendChild(cloud);
-            }
-             // Birds
-            const bird = document.createElement('div');
-            bird.className = 'bird';
-            bird.style.top = `${10 + Math.random() * 30}vh`;
-            bird.style.animationDuration = `${15 + Math.random() * 10}s`;
-            bird.style.animationDelay = '2s';
-            container.appendChild(bird);
-            
-            // Leaves
-             for (let i = 0; i < 5; i++) {
-                const leaf = document.createElement('div');
-                leaf.className = 'leaf';
-                leaf.style.left = `${10 + Math.random() * 80}vw`;
-                leaf.style.top = `${10 + Math.random() * 80}vh`;
-                leaf.style.animationDuration = `${4 + Math.random() * 4}s`;
-                 leaf.style.animationDelay = `${Math.random() * 5}s`;
-                container.appendChild(leaf);
-            }
-        }
-        
-        // --- Memorial Forest Logic (Unchanged) ---
-        function plantTree() {
-           const plantSection = document.getElementById('plant-tree-section');
-            if (plantSection) plantSection.style.display = 'none';
-            const dashboard = document.getElementById('tree-dashboard-section');
-            if(dashboard) {
-                dashboard.classList.remove('hidden');
-                dashboard.classList.add('fade-in');
-            }
-            setInterval(() => {
-                const heightEl = document.getElementById('tree-height');
-                if(heightEl) {
-                    let currentHeight = parseFloat(heightEl.textContent);
-                    heightEl.textContent = `${(currentHeight + 0.01).toFixed(2)}m`;
-                }
-            }, 5000);
-        }
     </script>
 </body>
 </html>
-
